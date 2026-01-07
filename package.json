@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A modern, multi-tabbed terminal emulator built with Electron, React, and TypeScript.",
   "main": "./out/main/index.js",
-  "author": "Uday Kiran Tentu",
+  "author": "shells",
   "repository": "https://github.com/uktentu/shellS",
   "homepage": "https://github.com/uktentu/shellS",
   "scripts": {
