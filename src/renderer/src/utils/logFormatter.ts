@@ -42,17 +42,31 @@ export const tryFormatJSON = (text: string): string | null => {
   return null
 }
 
+// Helper to strip ANSI codes for clean parsing
+const stripAnsi = (str: string): string => {
+  // eslint-disable-next-line no-control-regex
+  return str.replace(/\x1b\[[0-9;]*m/g, '')
+}
+
 export const formatLogLine = (line: string): string => {
-  // Attempt to find JSON substring
-  // This is a naive implementation; for complex logs, we might need more robust parsing
-  const firstBrace = line.indexOf('{')
-  const lastBrace = line.lastIndexOf('}')
+  // 1. Clean line of ANSI codes to find braces accurately
+  const cleanLine = stripAnsi(line)
+  
+  const firstBrace = cleanLine.indexOf('{')
+  const lastBrace = cleanLine.lastIndexOf('}')
 
   if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-    const potentialJson = line.substring(firstBrace, lastBrace + 1)
+    // Extract the potential JSON part from the CLEAN line
+    const potentialJson = cleanLine.substring(firstBrace, lastBrace + 1)
     const formatted = tryFormatJSON(potentialJson)
+    
     if (formatted) {
-      return line.substring(0, firstBrace) + '\n' + formatted + '\n' + line.substring(lastBrace + 1)
+      // If we successfully formatted it, return it.
+      // Note: We might lose the original ANSI coloring of the REST of the line here
+      // but "Log Mode" usually implies we want to see the JSON clearly.
+      // We reconstruct: prefix (from original if possible? tricky due to indices)
+      // Simpler: Just return prefix + formatted + suffix from clean line
+      return cleanLine.substring(0, firstBrace) + '\n' + formatted + '\n' + cleanLine.substring(lastBrace + 1)
     }
   }
 

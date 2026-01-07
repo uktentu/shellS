@@ -2,6 +2,7 @@ import * as pty from 'node-pty'
 import { BrowserWindow, ipcMain } from 'electron'
 import os from 'os'
 import fs from 'fs'
+import path from 'path'
 
 export class PtyManager {
   private mainWindow: BrowserWindow | null = null
@@ -26,7 +27,21 @@ export class PtyManager {
         `${process.env['LocalAppData']}\\Programs\\Git\\bin\\bash.exe`,
         'C:\\Git\\bin\\bash.exe'
       ]
-      const foundBash = gitBashPaths.find((p) => p && fs.existsSync(p))
+      
+      let foundBash = gitBashPaths.find((p) => p && fs.existsSync(p))
+
+      // If not found in common locations, scan system PATH
+      if (!foundBash && process.env.PATH) {
+        const pathDirs = process.env.PATH.split(path.delimiter)
+        for (const dir of pathDirs) {
+          const candidate = path.join(dir, 'bash.exe')
+          if (fs.existsSync(candidate)) {
+            foundBash = candidate
+            break
+          }
+        }
+      }
+
       shell = shell || foundBash || 'powershell.exe'
     } else {
       shell = shell || '/bin/bash'
