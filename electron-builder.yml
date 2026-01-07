@@ -13,6 +13,9 @@ asarUnpack:
   - resources/**
   - '**/node_modules/node-pty/**'
 win:
+  target:
+    - nsis
+    - portable
   executableName: shells
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
