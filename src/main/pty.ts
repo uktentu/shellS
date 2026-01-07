@@ -16,8 +16,19 @@ export class PtyManager {
     const platform = os.platform()
     let shell = process.env.SHELL
 
+import fs from 'fs'
+
+// ...
+
     if (platform === 'win32') {
-      shell = shell || 'powershell.exe'
+      const gitBashPaths = [
+        `${process.env['ProgramFiles']}\\Git\\bin\\bash.exe`,
+        `${process.env['ProgramFiles(x86)']}\\Git\\bin\\bash.exe`,
+        `${process.env['LocalAppData']}\\Programs\\Git\\bin\\bash.exe`,
+        'C:\\Git\\bin\\bash.exe'
+      ]
+      const foundBash = gitBashPaths.find((p) => p && fs.existsSync(p))
+      shell = shell || foundBash || 'powershell.exe'
     } else {
       shell = shell || '/bin/bash'
     }
