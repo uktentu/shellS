@@ -1,6 +1,7 @@
 import * as pty from 'node-pty'
 import { BrowserWindow, ipcMain } from 'electron'
 import os from 'os'
+import fs from 'fs'
 
 export class PtyManager {
   private mainWindow: BrowserWindow | null = null
@@ -16,9 +17,7 @@ export class PtyManager {
     const platform = os.platform()
     let shell = process.env.SHELL
 
-import fs from 'fs'
 
-// ...
 
     if (platform === 'win32') {
       const gitBashPaths = [
