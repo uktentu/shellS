@@ -10,8 +10,11 @@
 -   **Process Isolation**: Each tab spawns a dedicated backend process, ensuring stability.
 -   **Search Functionality**: Integrated search with wrapping and navigation support.
 -   **Customizable Themes**: Toggle between themes (Dark/Light).
+-   **Context Menu**: Right-click context menu for quick actions (Copy, Paste, Clear).
+-   **Advanced Search**: `Alt+F3` to toggle search, with improved result navigation.
 -   **Performance**: Built on `xterm.js` and `node-pty` for native-like performance.
 -   **Cross-Platform**: Compatible with macOS, Windows, and Linux.
+    -   **Windows Optimized**: Auto-detects Git Bash and supports portable mode.
 
 ## Tech Stack
 
