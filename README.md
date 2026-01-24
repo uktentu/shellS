@@ -77,3 +77,4 @@ The output executables (DMG, AppImage, EXE) will be located in the `dist` or `re
 ## License
 
 MIT
+
